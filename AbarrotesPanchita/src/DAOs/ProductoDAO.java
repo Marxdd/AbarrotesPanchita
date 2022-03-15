@@ -86,11 +86,11 @@ public class ProductoDAO extends BaseDAO<Producto>{
         TypedQuery<Producto> query = entityManager.createQuery(jpq, Producto.class);
         query.setParameter("id", entidad);
         List<Producto> productos = query.getResultList();
-        Producto producto = productos.get(0);
         if (productos.isEmpty()) {
             System.out.println("No se pudo encontrar la venta");
             return null;
         } else {
+             Producto producto = productos.get(0);
             return producto;
         }
     }

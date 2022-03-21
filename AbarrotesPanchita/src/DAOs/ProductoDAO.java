@@ -105,7 +105,7 @@ public class ProductoDAO extends BaseDAO<Producto>{
             System.out.println("No hay ventas");
             return null;
         } else {
-            System.out.println("Mostrando todas las ventas");
+            System.out.println("Mostrando todos los productos");
             for (Producto producto : productos) {
                 System.out.println(producto);
             }

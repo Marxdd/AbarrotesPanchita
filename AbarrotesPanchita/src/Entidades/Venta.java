@@ -94,15 +94,12 @@ public class Venta implements Serializable {
 
     public void setProductos(List<RelacionProductosVentas> productos) {
         this.productos = productos;
-    }
+    }    
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.id);
-        hash = 43 * hash + Objects.hashCode(this.fecha);
-        hash = 43 * hash + Float.floatToIntBits(this.montoTotal);
-        hash = 43 * hash + Objects.hashCode(this.productos);
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -118,21 +115,14 @@ public class Venta implements Serializable {
             return false;
         }
         final Venta other = (Venta) obj;
-        if (Float.floatToIntBits(this.montoTotal) != Float.floatToIntBits(other.montoTotal)) {
-            return false;
-        }
         if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.fecha, other.fecha)) {
-            return false;
-        }
-        if (!Objects.equals(this.productos, other.productos)) {
             return false;
         }
         return true;
     }
 
+    
+    
     @Override
     public String toString() {
         return "Venta{" + "id=" + id + ", fecha=" + fecha + ", montoTotal=" + montoTotal + ", productos=" + productos + '}';

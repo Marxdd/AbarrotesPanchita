@@ -124,13 +124,8 @@ public class RelacionProductosVentas implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.id);
-        hash = 41 * hash + Objects.hashCode(this.cantidad);
-        hash = 41 * hash + Float.floatToIntBits(this.precio);
-        hash = 41 * hash + Float.floatToIntBits(this.cantidadGranel);
-        hash = 41 * hash + Objects.hashCode(this.producto);
-        hash = 41 * hash + Objects.hashCode(this.venta);
+        int hash = 3;
+        hash = 13 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -146,27 +141,13 @@ public class RelacionProductosVentas implements Serializable {
             return false;
         }
         final RelacionProductosVentas other = (RelacionProductosVentas) obj;
-        if (Float.floatToIntBits(this.precio) != Float.floatToIntBits(other.precio)) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.cantidadGranel) != Float.floatToIntBits(other.cantidadGranel)) {
-            return false;
-        }
         if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.cantidad, other.cantidad)) {
-            return false;
-        }
-        if (!Objects.equals(this.producto, other.producto)) {
-            return false;
-        }
-        if (!Objects.equals(this.venta, other.venta)) {
             return false;
         }
         return true;
     }
 
+  
     @Override
     public String toString() {
         return "RelacionProductosVentas{" + "id=" + id + ", cantidad=" + cantidad + ", precio=" + precio + ", cantidadGranel=" + cantidadGranel + ", producto=" + producto + ", venta=" + venta + '}';

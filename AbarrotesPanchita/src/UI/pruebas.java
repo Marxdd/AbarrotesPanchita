@@ -6,11 +6,16 @@
 package UI;
 
 import DAOs.ProductoDAO;
+import DAOs.RelacionProductosVentasDAO;
+import DAOs.VentaDAO;
 import Entidades.Producto;
+import Entidades.RelacionProductosVentas;
+import Entidades.Venta;
+import java.util.Calendar;
 
 /**
  *
- * @author Carlos
+ * @author Abarrotes
  */
 public class pruebas {
 
@@ -21,12 +26,43 @@ public class pruebas {
         // TODO code application logic here
         ProductoDAO pd = new ProductoDAO();
         
+        RelacionProductosVentasDAO rpvD = new RelacionProductosVentasDAO();
+        VentaDAO vD = new VentaDAO();
+        
         Producto entidad = pd.buscarPorId(1);//new Producto("Sabritas",18.00f,"ASDASDSA");
      //  pd.agregar(entidad);
         
-        entidad.setNombre("Sabritas 2");
+        //entidad.setNombre("Sabritas 2");
         
-        pd.actualizar(entidad);
+        
+        
+        /*
+        Todo esto es para agregar la venta y relacion
+        
+         Venta venta = new Venta(Calendar.getInstance(), entidad.getPrecio()*2);
+        
+        vD.agregar(venta);
+        
+        RelacionProductosVentas rpv = new RelacionProductosVentas(2, venta.getMontoTotal(), entidad, venta);
+        
+        rpvD.agregar(rpv);
+        */
+       
+        
+        
+        //pd.actualizar(entidad);
+        
+        
+        /*
+        
+        */
+        Venta venta = vD.buscarPorId(1);
+        
+       // venta.setMontoTotal(entidad.getPrecio());
+        
+        vD.eliminar(venta);
+        
+        
     }
     
 }

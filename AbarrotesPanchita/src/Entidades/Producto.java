@@ -107,12 +107,8 @@ public class Producto implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.nombre);
-        hash = 53 * hash + Float.floatToIntBits(this.precio);
-        hash = 53 * hash + Objects.hashCode(this.codigo);
-        hash = 53 * hash + Objects.hashCode(this.ventas);
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -128,23 +124,13 @@ public class Producto implements Serializable {
             return false;
         }
         final Producto other = (Producto) obj;
-        if (Float.floatToIntBits(this.precio) != Float.floatToIntBits(other.precio)) {
-            return false;
-        }
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.codigo, other.codigo)) {
-            return false;
-        }
         if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.ventas, other.ventas)) {
             return false;
         }
         return true;
     }
+
+ 
 
     @Override
     public String toString() {

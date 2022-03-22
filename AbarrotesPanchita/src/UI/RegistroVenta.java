@@ -67,7 +67,7 @@ public class RegistroVenta extends javax.swing.JFrame {
             valores[i] = Float.parseFloat(tblCarrito.getModel().getValueAt(i, 4).toString());
             subTotal += valores[i];
         }
-
+        
         tfSubTotal.setText(subTotal + "");
 
 
@@ -180,7 +180,7 @@ public class RegistroVenta extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -270,13 +270,21 @@ public class RegistroVenta extends javax.swing.JFrame {
         btnRegistrar.setText("Registrar");
         getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 340, -1, -1));
 
+        tfSubTotal.setEditable(false);
         tfSubTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tfSubTotal.setToolTipText("");
         getContentPane().add(tfSubTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 210, 215, -1));
 
+        tfCambio.setEditable(false);
         tfCambio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         getContentPane().add(tfCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 290, 215, -1));
 
         tfMonto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tfMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfMontoKeyReleased(evt);
+            }
+        });
         getContentPane().add(tfMonto, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 250, 215, -1));
 
         btnRegresar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -298,7 +306,7 @@ public class RegistroVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void tblBusquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBusquedaMouseClicked
-       if (evt.getClickCount() == 2) {
+       if (evt.getClickCount() == 1) {
             Integer cantidad = new Integer(JOptionPane.showInputDialog(this, "Indique cantidad del producto", "", QUESTION_MESSAGE));
             if (cantidad != null ){//&& modificarStock(cantidad)) {
 
@@ -329,7 +337,7 @@ public class RegistroVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_tblBusquedaMouseClicked
 
     private void tblCarritoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCarritoMouseClicked
-       if (evt.getClickCount() == 2) {
+       if (evt.getClickCount() == 1) {
             //recuperarStock();
           //  calcularPrecios();
             DefaultTableModel tb = (DefaultTableModel) tblCarrito.getModel();
@@ -337,6 +345,14 @@ public class RegistroVenta extends javax.swing.JFrame {
             calcularPrecios();
         }
     }//GEN-LAST:event_tblCarritoMouseClicked
+
+    private void tfMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMontoKeyReleased
+        float subtlt = Float.parseFloat(tfSubTotal.getText());
+        float mont = Float.parseFloat(tfMonto.getText());
+        float cambio = mont - subtlt;
+
+        tfCambio.setText(cambio + "");
+    }//GEN-LAST:event_tfMontoKeyReleased
 
     /**
      * @param args the command line arguments

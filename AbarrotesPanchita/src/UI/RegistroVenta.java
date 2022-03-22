@@ -5,8 +5,14 @@
  */
 package UI;
 
+import DAOs.ProductoDAO;
+import Entidades.Producto;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.List;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,11 +23,82 @@ public class RegistroVenta extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    ProductoDAO pD = new ProductoDAO();
+    
     public RegistroVenta() {
         initComponents();
         configurarPantalla();
+        hacerTabla();
+    }
+     public void eliminarDatos() {
+        DefaultTableModel tb = (DefaultTableModel) tblBusqueda.getModel();
+        tb.setRowCount(0);
+//        tfID1.setText(null);
+//        tfNombre.setText(null);
+//        tfPrecioActual.setText(null);
+//        tfStock.setText(null);
+    }
+    
+    private void hacerTabla() {
+        eliminarDatos();
+        String[] dato = new String[4];
+        DefaultTableModel tb = (DefaultTableModel) tblBusqueda.getModel();
+        List<Producto> productos = pD.mostrarTodas();
+        try {
+            for (Producto producto : productos) {
+                dato[0] = Integer.toString(producto.getId());
+                dato[1] = producto.getNombre();
+                dato[3] = Float.toString(producto.getPrecio());
+                dato[2] = producto.getCodigo();
+                tb.addRow(dato);
+            }
+        } catch (Exception e) {
+        }
+
     }
 
+      public void calcularPrecios() {
+        float subTotal = 0;
+        float descuento;
+        float total;
+
+        float valores[] = new float[tblCarrito.getRowCount()];
+        for (int i = 0; i < valores.length; i++) {
+            valores[i] = Float.parseFloat(tblCarrito.getModel().getValueAt(i, 4).toString());
+            subTotal += valores[i];
+        }
+
+        tfSubTotal.setText(subTotal + "");
+
+
+    }
+
+    public boolean modificarStock(Integer cantidad) {
+        int stock = Integer.parseInt(tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 3).toString());
+
+        if (stock == 0 || stock - cantidad.intValue() < 0) {
+            JOptionPane.showMessageDialog(this, "No hay stock suficiente");
+            return false;
+        } else {
+            stock = stock - cantidad.intValue();
+            tblBusqueda.setValueAt(stock, tblBusqueda.getSelectedRow(), 3);
+            return true;
+        }
+
+    }
+    
+     public boolean validarExistenciaTablaRelacion(Integer id) {
+
+        for (int i = 0; i < tblCarrito.getRowCount(); i++) {
+            int idProductoRel = Integer.parseInt(tblCarrito.getValueAt(i, 0).toString());
+            if (idProductoRel == id.intValue()) {
+                JOptionPane.showMessageDialog(this, "Ya esta agregado el producto que desea agregar");
+                return true;
+            }
+        }
+        return false;
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,9 +124,9 @@ public class RegistroVenta extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        tfSubTotal = new javax.swing.JTextField();
+        tfCambio = new javax.swing.JTextField();
+        tfMonto = new javax.swing.JTextField();
         btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -67,35 +144,62 @@ public class RegistroVenta extends javax.swing.JFrame {
 
         tblBusqueda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "ID Producto", "Nombre", "Categoria", "Cantidad", "Precio"
+                "ID Producto", "Nombre", "Codigo", "Precio"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblBusqueda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBusquedaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblBusqueda);
+        if (tblBusqueda.getColumnModel().getColumnCount() > 0) {
+            tblBusqueda.getColumnModel().getColumn(0).setResizable(false);
+            tblBusqueda.getColumnModel().getColumn(1).setResizable(false);
+            tblBusqueda.getColumnModel().getColumn(2).setResizable(false);
+            tblBusqueda.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         tblCarrito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "ID Producto", "Nombre", "Categoria", "Cantidad", "Precio"
+                "ID Producto", "Nombre", "CantidadGranel", "Cantidad", "Precio"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblCarrito.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCarritoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCarrito);
+        if (tblCarrito.getColumnModel().getColumnCount() > 0) {
+            tblCarrito.getColumnModel().getColumn(0).setResizable(false);
+            tblCarrito.getColumnModel().getColumn(1).setResizable(false);
+            tblCarrito.getColumnModel().getColumn(2).setResizable(false);
+            tblCarrito.getColumnModel().getColumn(3).setResizable(false);
+            tblCarrito.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Carrito");
@@ -166,14 +270,14 @@ public class RegistroVenta extends javax.swing.JFrame {
         btnRegistrar.setText("Registrar");
         getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 340, -1, -1));
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 210, 215, -1));
+        tfSubTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        getContentPane().add(tfSubTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 210, 215, -1));
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 290, 215, -1));
+        tfCambio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        getContentPane().add(tfCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 290, 215, -1));
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 250, 215, -1));
+        tfMonto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        getContentPane().add(tfMonto, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 250, 215, -1));
 
         btnRegresar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnRegresar.setText("Regresar");
@@ -192,6 +296,47 @@ public class RegistroVenta extends javax.swing.JFrame {
         p.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void tblBusquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBusquedaMouseClicked
+       if (evt.getClickCount() == 2) {
+            Integer cantidad = new Integer(JOptionPane.showInputDialog(this, "Indique cantidad del producto", "", QUESTION_MESSAGE));
+            if (cantidad != null ){//&& modificarStock(cantidad)) {
+
+  
+
+                
+                DefaultTableModel tb = (DefaultTableModel) tblCarrito.getModel();
+                Object dato[] = new Object[5];
+            
+                dato[0] = tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 0);
+                dato[1] = tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 1);
+                    Float precio = Float.parseFloat(tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 3).toString());
+                    precio = precio*cantidad;
+                dato[4] = precio;
+                dato[2] = tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 3);
+                dato[3] = cantidad;
+                
+                
+
+                if (!validarExistenciaTablaRelacion(new Integer(dato[0].toString()))) {
+                    tb.addRow(dato);
+                    calcularPrecios();
+                }
+
+            }
+
+        }
+    }//GEN-LAST:event_tblBusquedaMouseClicked
+
+    private void tblCarritoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCarritoMouseClicked
+       if (evt.getClickCount() == 2) {
+            //recuperarStock();
+          //  calcularPrecios();
+            DefaultTableModel tb = (DefaultTableModel) tblCarrito.getModel();
+            tb.removeRow(tblCarrito.getSelectedRow());
+            calcularPrecios();
+        }
+    }//GEN-LAST:event_tblCarritoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -250,13 +395,13 @@ public class RegistroVenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblBuscarProducto;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tblBusqueda;
     private javax.swing.JTable tblCarrito;
     private javax.swing.JTextField tfBuscarProducto;
+    private javax.swing.JTextField tfCambio;
+    private javax.swing.JTextField tfMonto;
+    private javax.swing.JTextField tfSubTotal;
     // End of variables declaration//GEN-END:variables
 }

@@ -64,6 +64,10 @@ public class Venta implements Serializable {
         productos = new ArrayList<RelacionProductosVentas>();
     }
 
+    public void agregarProductos(RelacionProductosVentas producto) {
+        productos.add(producto);
+    }
+
     public Integer getId() {
         return id;
     }
@@ -94,7 +98,7 @@ public class Venta implements Serializable {
 
     public void setProductos(List<RelacionProductosVentas> productos) {
         this.productos = productos;
-    }    
+    }
 
     @Override
     public int hashCode() {
@@ -121,8 +125,6 @@ public class Venta implements Serializable {
         return true;
     }
 
-    
-    
     @Override
     public String toString() {
         return "Venta{" + "id=" + id + ", fecha=" + fecha + ", montoTotal=" + montoTotal + ", productos=" + productos + '}';

@@ -6,11 +6,15 @@
 package UI;
 
 import DAOs.ProductoDAO;
+import DAOs.RelacionProductosVentasDAO;
+import DAOs.VentaDAO;
 import Entidades.Producto;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import Entidades.RelacionProductosVentas;
+import Entidades.Venta;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +28,8 @@ public class RegistroVenta extends javax.swing.JFrame {
      * Creates new form Principal
      */
     ProductoDAO pD = new ProductoDAO();
+    VentaDAO vD = new VentaDAO();
+    RelacionProductosVentasDAO rpvD = new RelacionProductosVentasDAO();
     
     public RegistroVenta() {
         initComponents();
@@ -268,6 +274,11 @@ public class RegistroVenta extends javax.swing.JFrame {
 
         btnRegistrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 340, -1, -1));
 
         tfSubTotal.setEditable(false);
@@ -353,6 +364,33 @@ public class RegistroVenta extends javax.swing.JFrame {
 
         tfCambio.setText(cambio + "");
     }//GEN-LAST:event_tfMontoKeyReleased
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        if (tblCarrito.getRowCount() > 0) {
+            Calendar fecha = Calendar.getInstance();
+            Venta venta = new Venta(fecha, Float.parseFloat(tfSubTotal.getText()));
+
+            Producto producto;
+            RelacionProductosVentas rpv;// = new RelacionProductosVentas();
+            RelacionProductosVentas rpv1;
+            int fila = 0;
+            for (int i = 0; i < tblCarrito.getRowCount(); i++) {
+                producto = pD.buscarPorId(new Integer(tblCarrito.getValueAt(i, 0).toString()));
+                
+                //Poner un if si es a granel(?)
+                rpv = new RelacionProductosVentas(new Integer(tblCarrito.getValueAt(i, 3).toString()),
+                        new Float(tblCarrito.getValueAt(i, 4).toString()), new Float(tblCarrito.getValueAt(i, 2).toString()), producto, venta);
+                venta.agregarProductos(rpv);
+            }
+            vD.agregar(venta);
+
+            hacerTabla();
+            DefaultTableModel tb = (DefaultTableModel) tblCarrito.getModel();
+            tb.setRowCount(0);
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay productos agregados", "Aviso", INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments

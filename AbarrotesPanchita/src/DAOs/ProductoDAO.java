@@ -116,7 +116,7 @@ public class ProductoDAO extends BaseDAO<Producto>{
      public List<Producto> buscarPorNombre(String nombre) {
         String jpq = "SELECT u FROM Producto u WHERE u.nombre LIKE :nombre";
         TypedQuery<Producto> query = em.createQuery(jpq, Producto.class);
-        query.setParameter("nombre", "%" + nombre + "%");
+        query.setParameter("nombre", "%"+ nombre + "%");
         List<Producto> productos = query.getResultList();
         if (productos.isEmpty()) {
               System.out.println("No hay productos");
@@ -124,7 +124,25 @@ public class ProductoDAO extends BaseDAO<Producto>{
         } else {
             System.out.println("Mostrando todos los productos");
             for (Producto producto : productos) {
-                System.out.println(productos);
+                System.out.println(producto);
+            }
+            return productos;
+        }
+    }
+     
+    
+    public List<Producto> buscarPorCodigo(String codigo) {
+        String jpq = "SELECT u FROM Producto u WHERE u.codigo LIKE :codigo";
+        TypedQuery<Producto> query = em.createQuery(jpq, Producto.class);
+        query.setParameter("codigo", "%"+ codigo + "%");
+        List<Producto> productos = query.getResultList();
+        if (productos.isEmpty()) {
+              System.out.println("No hay productos");
+            return null;
+        } else {
+            System.out.println("Mostrando todos los productos");
+            for (Producto producto : productos) {
+                System.out.println(producto);
             }
             return productos;
         }

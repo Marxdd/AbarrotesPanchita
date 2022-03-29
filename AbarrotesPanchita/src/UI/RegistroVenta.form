@@ -93,16 +93,17 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tfBuscarProducto">
-          <Properties>
-            <Property name="text" type="java.lang.String" value=" "/>
-          </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfBuscarProductoKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbOrdenBusqueda">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
+              <StringArray count="3">
                 <StringItem index="0" value="Nombre"/>
-                <StringItem index="1" value=" "/>
+                <StringItem index="1" value="Codigo"/>
+                <StringItem index="2" value=" "/>
               </StringArray>
             </Property>
           </Properties>

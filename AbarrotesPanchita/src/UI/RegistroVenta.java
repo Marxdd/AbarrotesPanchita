@@ -11,8 +11,11 @@ import DAOs.VentaDAO;
 import Entidades.Producto;
 import Entidades.RelacionProductosVentas;
 import Entidades.Venta;
+import java.awt.event.ActionEvent;
 import java.util.Calendar;
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
@@ -30,13 +33,19 @@ public class RegistroVenta extends javax.swing.JFrame {
     ProductoDAO pD = new ProductoDAO();
     VentaDAO vD = new VentaDAO();
     RelacionProductosVentasDAO rpvD = new RelacionProductosVentasDAO();
-    
+
     public RegistroVenta() {
         initComponents();
         configurarPantalla();
         hacerTabla();
+        tfBuscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfMontoKeyReleased(evt);
+            }
+        });
     }
-     public void eliminarDatos() {
+
+    public void eliminarDatos() {
         DefaultTableModel tb = (DefaultTableModel) tblBusqueda.getModel();
         tb.setRowCount(0);
 //        tfID1.setText(null);
@@ -44,7 +53,7 @@ public class RegistroVenta extends javax.swing.JFrame {
 //        tfPrecioActual.setText(null);
 //        tfStock.setText(null);
     }
-    
+
     private void hacerTabla() {
         eliminarDatos();
         String[] dato = new String[4];
@@ -63,7 +72,7 @@ public class RegistroVenta extends javax.swing.JFrame {
 
     }
 
-      public void calcularPrecios() {
+    public void calcularPrecios() {
         float subTotal = 0;
         float descuento;
         float total;
@@ -73,9 +82,8 @@ public class RegistroVenta extends javax.swing.JFrame {
             valores[i] = Float.parseFloat(tblCarrito.getModel().getValueAt(i, 4).toString());
             subTotal += valores[i];
         }
-        
-        tfSubTotal.setText(subTotal + "");
 
+        tfSubTotal.setText(subTotal + "");
 
     }
 
@@ -92,8 +100,8 @@ public class RegistroVenta extends javax.swing.JFrame {
         }
 
     }
-    
-     public boolean validarExistenciaTablaRelacion(Integer id) {
+
+    public boolean validarExistenciaTablaRelacion(Integer id) {
 
         for (int i = 0; i < tblCarrito.getRowCount(); i++) {
             int idProductoRel = Integer.parseInt(tblCarrito.getValueAt(i, 0).toString());
@@ -105,6 +113,7 @@ public class RegistroVenta extends javax.swing.JFrame {
         return false;
 
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -144,9 +153,13 @@ public class RegistroVenta extends javax.swing.JFrame {
         lblBuscarProducto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblBuscarProducto.setText("Buscador de producto");
 
-        tfBuscarProducto.setText(" ");
+        tfBuscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfBuscarProductoKeyReleased(evt);
+            }
+        });
 
-        cbOrdenBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", " " }));
+        cbOrdenBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Codigo", " " }));
 
         tblBusqueda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -317,25 +330,20 @@ public class RegistroVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void tblBusquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBusquedaMouseClicked
-       if (evt.getClickCount() == 1) {
+        if (evt.getClickCount() == 1) {
             Integer cantidad = new Integer(JOptionPane.showInputDialog(this, "Indique cantidad del producto", "", QUESTION_MESSAGE));
-            if (cantidad != null ){//&& modificarStock(cantidad)) {
+            if (cantidad != null) {//&& modificarStock(cantidad)) {
 
-  
-
-                
                 DefaultTableModel tb = (DefaultTableModel) tblCarrito.getModel();
                 Object dato[] = new Object[5];
-            
+
                 dato[0] = tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 0);
                 dato[1] = tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 1);
-                    Float precio = Float.parseFloat(tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 3).toString());
-                    precio = precio*cantidad;
+                Float precio = Float.parseFloat(tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 3).toString());
+                precio = precio * cantidad;
                 dato[4] = precio;
                 dato[2] = tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 3);
                 dato[3] = cantidad;
-                
-                
 
                 if (!validarExistenciaTablaRelacion(new Integer(dato[0].toString()))) {
                     tb.addRow(dato);
@@ -348,9 +356,9 @@ public class RegistroVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_tblBusquedaMouseClicked
 
     private void tblCarritoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCarritoMouseClicked
-       if (evt.getClickCount() == 1) {
+        if (evt.getClickCount() == 1) {
             //recuperarStock();
-          //  calcularPrecios();
+            //  calcularPrecios();
             DefaultTableModel tb = (DefaultTableModel) tblCarrito.getModel();
             tb.removeRow(tblCarrito.getSelectedRow());
             calcularPrecios();
@@ -376,7 +384,7 @@ public class RegistroVenta extends javax.swing.JFrame {
             int fila = 0;
             for (int i = 0; i < tblCarrito.getRowCount(); i++) {
                 producto = pD.buscarPorId(new Integer(tblCarrito.getValueAt(i, 0).toString()));
-                
+
                 //Poner un if si es a granel(?)
                 rpv = new RelacionProductosVentas(new Integer(tblCarrito.getValueAt(i, 3).toString()),
                         new Float(tblCarrito.getValueAt(i, 4).toString()), new Float(tblCarrito.getValueAt(i, 2).toString()), producto, venta);
@@ -391,6 +399,33 @@ public class RegistroVenta extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No hay productos agregados", "Aviso", INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void tfBuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBuscarProductoKeyReleased
+        if (!tfBuscarProducto.getText().isEmpty() || tfBuscarProducto.equals("")) {
+            eliminarDatos();
+            String[] dato = new String[4];
+            DefaultTableModel tb = (DefaultTableModel) tblBusqueda.getModel();
+            List<Producto> productos = null;
+            if (cbOrdenBusqueda.getSelectedItem().equals("Nombre")) {
+                productos = pD.buscarPorNombre(tfBuscarProducto.getText());
+            } else {
+                productos = pD.buscarPorCodigo(tfBuscarProducto.getText());
+            }
+
+            try {
+                for (Producto producto : productos) {
+                    dato[0] = Integer.toString(producto.getId());
+                    dato[1] = producto.getNombre();
+                    dato[3] = Float.toString(producto.getPrecio());
+                    dato[2] = producto.getCodigo();
+                    tb.addRow(dato);
+                }
+            } catch (Exception i) {
+            }
+        } else {
+            hacerTabla();
+        }
+    }//GEN-LAST:event_tfBuscarProductoKeyReleased
 
     /**
      * @param args the command line arguments
@@ -458,4 +493,5 @@ public class RegistroVenta extends javax.swing.JFrame {
     private javax.swing.JTextField tfMonto;
     private javax.swing.JTextField tfSubTotal;
     // End of variables declaration//GEN-END:variables
+
 }

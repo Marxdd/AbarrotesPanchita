@@ -41,21 +41,26 @@ public class Producto implements Serializable {
     @Column(name = "codigo",length = 100,nullable = false)
     private String codigo;
     
+    @Column(name = "a_granel",nullable = false)
+    private boolean aGranel;
+    
        @OneToMany(mappedBy = "producto",cascade = CascadeType.ALL)
     private List<RelacionProductosVentas> ventas;
 
-    public Producto(Integer id, String nombre, float precio, String codigo) {
+    public Producto(Integer id, String nombre, float precio, String codigo, boolean aGranel) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.codigo = codigo;
+        this.aGranel = aGranel;
         this.ventas = new ArrayList<RelacionProductosVentas>();
     }
 
-    public Producto(String nombre, float precio, String codigo) {
+    public Producto(String nombre, float precio, String codigo,boolean aGranel) {
         this.nombre = nombre;
         this.precio = precio;
         this.codigo = codigo;
+        this.aGranel = aGranel;
         ventas = new ArrayList<RelacionProductosVentas>();
     }
 
@@ -105,6 +110,14 @@ public class Producto implements Serializable {
         this.ventas = ventas;
     }
 
+    public boolean isaGranel() {
+        return aGranel;
+    }
+
+    public void setaGranel(boolean aGranel) {
+        this.aGranel = aGranel;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -134,7 +147,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "Producto{" + "id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", codigo=" + codigo + ", ventas=" + ventas + '}';
+        return "Producto{" + "id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", codigo=" + codigo + ", ventas=" + ventas + ", aGranel"+aGranel+'}';
     }
     
     

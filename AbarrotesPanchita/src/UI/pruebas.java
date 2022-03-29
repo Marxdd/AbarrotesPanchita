@@ -29,8 +29,8 @@ public class pruebas {
         RelacionProductosVentasDAO rpvD = new RelacionProductosVentasDAO();
         VentaDAO vD = new VentaDAO();
         
-        Producto entidad = pd.buscarPorId(1);//new Producto("Sabritas",18.00f,"ASDASDSA");
-     //  pd.agregar(entidad);
+        Producto entidad =new Producto("Galletas",15.50f,"QEHJEE",false);// pd.buscarPorId(1);//
+        pd.agregar(entidad);
         
         //entidad.setNombre("Sabritas 2");
         
@@ -56,11 +56,11 @@ public class pruebas {
         /*
         
         */
-        Venta venta = vD.buscarPorId(1);
+     //   Venta venta = vD.buscarPorId(1);
         
        // venta.setMontoTotal(entidad.getPrecio());
         
-        vD.eliminar(venta);
+      //  vD.eliminar(venta);
         
         
     }

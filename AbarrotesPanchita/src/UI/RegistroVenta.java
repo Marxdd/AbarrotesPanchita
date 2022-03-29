@@ -38,11 +38,6 @@ public class RegistroVenta extends javax.swing.JFrame {
         initComponents();
         configurarPantalla();
         hacerTabla();
-        tfBuscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfMontoKeyReleased(evt);
-            }
-        });
     }
 
     public void eliminarDatos() {

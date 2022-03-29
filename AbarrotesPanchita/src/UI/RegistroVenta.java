@@ -81,6 +81,12 @@ public class RegistroVenta extends javax.swing.JFrame {
         tfSubTotal.setText(subTotal + "");
 
     }
+    
+    public void setMontosCero() {
+        tfSubTotal.setText("0");
+        tfMonto.setText("0");
+        tfCambio.setText("0");
+    }
 
     public boolean modificarStock(Integer cantidad) {
         int stock = Integer.parseInt(tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 3).toString());
@@ -388,6 +394,7 @@ public class RegistroVenta extends javax.swing.JFrame {
             vD.agregar(venta);
 
             hacerTabla();
+            setMontosCero();
             DefaultTableModel tb = (DefaultTableModel) tblCarrito.getModel();
             tb.setRowCount(0);
         } else {

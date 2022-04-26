@@ -119,8 +119,7 @@ public class ProductoDAO extends BaseDAO<Producto>{
         query.setParameter("nombre", "%"+ nombre + "%");
         List<Producto> productos = query.getResultList();
         if (productos.isEmpty()) {
-              System.out.println("No hay productos");
-            return null;
+            return productos;
         } else {
             System.out.println("Mostrando todos los productos");
             for (Producto producto : productos) {

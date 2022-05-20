@@ -105,7 +105,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_botonRegistrarVentaActionPerformed
 
     private void botonRegistrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarProductoActionPerformed
-        // TODO add your handling code here:
+        RegistroProducto rp = new RegistroProducto();
+        rp.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_botonRegistrarProductoActionPerformed
 
     private void botonRegistrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarCategoriaActionPerformed

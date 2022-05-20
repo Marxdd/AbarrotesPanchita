@@ -29,7 +29,7 @@ public class pruebas {
         RelacionProductosVentasDAO rpvD = new RelacionProductosVentasDAO();
         VentaDAO vD = new VentaDAO();
         
-        Producto entidad =new Producto("Galletas",15.50f,"QEHJEE",false);// pd.buscarPorId(1);//
+        Producto entidad =new Producto("Galletas",15.50f,"QEHJEE",false, "Galletas", true);// pd.buscarPorId(1);//
         pd.agregar(entidad);
         
         //entidad.setNombre("Sabritas 2");

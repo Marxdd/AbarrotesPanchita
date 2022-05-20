@@ -12,11 +12,8 @@ import Entidades.Producto;
 import Entidades.RelacionProductosVentas;
 import Entidades.Venta;
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.List;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
@@ -70,8 +67,8 @@ public class RegistroVenta extends javax.swing.JFrame {
 
     public void calcularPrecios() {
         float subTotal = 0;
-        float descuento;
-        float total;
+        //float descuento;
+        //float total;
 
         float valores[] = new float[tblCarrito.getRowCount()];
         for (int i = 0; i < valores.length; i++) {

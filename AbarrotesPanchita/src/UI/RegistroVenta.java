@@ -49,19 +49,22 @@ public class RegistroVenta extends javax.swing.JFrame {
 
     private void hacerTabla() {
         eliminarDatos();
-        String[] dato = new String[4];
+        String[] dato = new String[5];
         DefaultTableModel tb = (DefaultTableModel) tblBusqueda.getModel();
         List<Producto> productos = pD.mostrarTodas();
         try {
             for (Producto producto : productos) {
-                dato[0] = Integer.toString(producto.getId());
-                dato[2] = producto.getNombre();
-                dato[3] = Float.toString(producto.getPrecio());
-                dato[1] = producto.getCodigo();
-                dato[4] = producto.getCategoria();
-                tb.addRow(dato);
+                if (producto.getExistencia()) {
+                    dato[0] = Integer.toString(producto.getId());
+                    dato[1] = producto.getCodigo();
+                    dato[2] = producto.getNombre();
+                    dato[3] = Float.toString(producto.getPrecio());
+                    dato[4] = producto.getCategoria();
+                    tb.addRow(dato);
+                }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -167,7 +170,7 @@ public class RegistroVenta extends javax.swing.JFrame {
             }
         });
 
-        cbOrdenBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Codigo"}));
+        cbOrdenBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Codigo", "Categoria"}));
 
         tblBusqueda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -445,9 +448,9 @@ public class RegistroVenta extends javax.swing.JFrame {
             Integer cantidad = null;
 
             try {
-                
+
                 String numero = JOptionPane.showInputDialog(this, "Indique cantidad/peso del producto", "", QUESTION_MESSAGE);
-                
+
                 if (numero == null) {
                     return;
                 } else {
@@ -491,13 +494,15 @@ public class RegistroVenta extends javax.swing.JFrame {
     private void tfBuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBuscarProductoKeyReleased
         if (!tfBuscarProducto.getText().isEmpty() || tfBuscarProducto.equals("")) {
             eliminarDatos();
-            String[] dato = new String[4];
+            String[] dato = new String[5];
             DefaultTableModel tb = (DefaultTableModel) tblBusqueda.getModel();
             List<Producto> productos = null;
             if (cbOrdenBusqueda.getSelectedItem().equals("Nombre")) {
                 productos = pD.buscarPorNombre(tfBuscarProducto.getText());
-            } else {
+            } else if (cbOrdenBusqueda.getSelectedItem().equals("Codigo")) {
                 productos = pD.buscarPorCodigo(tfBuscarProducto.getText());
+            } else {
+                productos = pD.buscarPorCategoria(tfBuscarProducto.getText());
             }
 
             try {
@@ -509,11 +514,15 @@ public class RegistroVenta extends javax.swing.JFrame {
                     lblNota.setText("");
                 }
                 for (Producto producto : productos) {
-                    dato[0] = Integer.toString(producto.getId());
-                    dato[1] = producto.getNombre();
-                    dato[3] = Float.toString(producto.getPrecio());
-                    dato[2] = producto.getCodigo();
-                    tb.addRow(dato);
+                    if (producto.getExistencia()) {
+                        dato[0] = Integer.toString(producto.getId());
+                        dato[2] = producto.getNombre();
+                        dato[3] = Float.toString(producto.getPrecio());
+                        dato[1] = producto.getCodigo();
+                        dato[4] = producto.getCategoria();
+                        tb.addRow(dato);
+                    }
+
                 }
             } catch (Exception i) {
             }

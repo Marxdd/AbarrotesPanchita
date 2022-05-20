@@ -55,9 +55,10 @@ public class RegistroVenta extends javax.swing.JFrame {
         try {
             for (Producto producto : productos) {
                 dato[0] = Integer.toString(producto.getId());
-                dato[1] = producto.getNombre();
+                dato[2] = producto.getNombre();
                 dato[3] = Float.toString(producto.getPrecio());
-                dato[2] = producto.getCodigo();
+                dato[1] = producto.getCodigo();
+                dato[4] = producto.getCategoria();
                 tb.addRow(dato);
             }
         } catch (Exception e) {
@@ -90,7 +91,7 @@ public class RegistroVenta extends javax.swing.JFrame {
         int stock = Integer.parseInt(tblBusqueda.getValueAt(tblBusqueda.getSelectedRow(), 3).toString());
 
         if (stock == 0 || stock - cantidad.intValue() < 0) {
-            JOptionPane.showMessageDialog(this, "No hay stock suficiente");
+            JOptionPane.showMessageDialog(this, "No hay stock suficieJOptionnte");
             return false;
         } else {
             stock = stock - cantidad.intValue();
@@ -173,11 +174,11 @@ public class RegistroVenta extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Producto", "Nombre", "Codigo", "Precio"
+                "ID Producto", "Codigo", "Nombre", "Precio", "Categoria"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -197,9 +198,13 @@ public class RegistroVenta extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tblBusqueda);
         if (tblBusqueda.getColumnModel().getColumnCount() > 0) {
             tblBusqueda.getColumnModel().getColumn(0).setResizable(false);
+            tblBusqueda.getColumnModel().getColumn(0).setPreferredWidth(0);
             tblBusqueda.getColumnModel().getColumn(1).setResizable(false);
+            tblBusqueda.getColumnModel().getColumn(1).setPreferredWidth(0);
             tblBusqueda.getColumnModel().getColumn(2).setResizable(false);
             tblBusqueda.getColumnModel().getColumn(3).setResizable(false);
+            tblBusqueda.getColumnModel().getColumn(3).setPreferredWidth(0);
+            tblBusqueda.getColumnModel().getColumn(4).setResizable(false);
         }
 
         tblCarrito.setModel(new javax.swing.table.DefaultTableModel(
@@ -226,10 +231,13 @@ public class RegistroVenta extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblCarrito);
         if (tblCarrito.getColumnModel().getColumnCount() > 0) {
             tblCarrito.getColumnModel().getColumn(0).setResizable(false);
+            tblCarrito.getColumnModel().getColumn(0).setPreferredWidth(0);
             tblCarrito.getColumnModel().getColumn(1).setResizable(false);
             tblCarrito.getColumnModel().getColumn(2).setResizable(false);
             tblCarrito.getColumnModel().getColumn(3).setResizable(false);
+            tblCarrito.getColumnModel().getColumn(3).setPreferredWidth(0);
             tblCarrito.getColumnModel().getColumn(4).setResizable(false);
+            tblCarrito.getColumnModel().getColumn(4).setPreferredWidth(0);
         }
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -245,7 +253,7 @@ public class RegistroVenta extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(lblTitulo)
                     .addComponent(lblBuscarProducto)
@@ -258,9 +266,10 @@ public class RegistroVenta extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,7 +295,7 @@ public class RegistroVenta extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Detalle de venta");

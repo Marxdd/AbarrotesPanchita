@@ -50,7 +50,12 @@ public class RegistroCategoria extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
+    }
 
+    public void limpiarCampos() {
+        tfID.setText("");
+        tfNombre.setText("");
+        tfDescripcion.setText("");
     }
 
     /**
@@ -315,6 +320,7 @@ public class RegistroCategoria extends javax.swing.JFrame {
             Categoria venta = new Categoria(tfNombre.getText(), tfDescripcion.getText());
             cd.agregar(venta);
             hacerTabla();
+            limpiarCampos();
         }
     }//GEN-LAST:event_botonAgregarCategoriaActionPerformed
 
@@ -360,13 +366,12 @@ public class RegistroCategoria extends javax.swing.JFrame {
             Categoria categoria = new Categoria(Integer.parseInt(tfID.getText()));
             cd.eliminar(categoria);
             hacerTabla();
+            limpiarCampos();
         }
     }//GEN-LAST:event_botonEliminarCategoriaActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        tfID.setText("");
-        tfNombre.setText("");
-        tfDescripcion.setText("");
+        limpiarCampos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
@@ -375,13 +380,14 @@ public class RegistroCategoria extends javax.swing.JFrame {
             Categoria categoria = new Categoria(Integer.parseInt(tfID.getText()), tfNombre.getText(), tfDescripcion.getText());
             cd.actualizar(categoria);
             hacerTabla();
+            limpiarCampos();
         }
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
-       Principal p = new Principal();
-       p.setVisible(true);
-       this.dispose();
+        Principal p = new Principal();
+        p.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_botonRegresarActionPerformed
 
     private void configurarPantalla() {

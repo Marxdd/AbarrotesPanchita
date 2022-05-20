@@ -52,6 +52,11 @@ public class RegistroVenta extends javax.swing.JFrame {
         String[] dato = new String[5];
         DefaultTableModel tb = (DefaultTableModel) tblBusqueda.getModel();
         List<Producto> productos = pD.mostrarTodas();
+        
+        if(productos == null){
+            return;
+        }
+        
         try {
             for (Producto producto : productos) {
                 if (producto.getExistencia()) {

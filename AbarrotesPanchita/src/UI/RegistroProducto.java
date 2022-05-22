@@ -82,6 +82,7 @@ public class RegistroProducto extends javax.swing.JFrame {
         tfNombre.setText("");
         tfPrecio.setText("");
         tfCodigo.setText("");
+        cbGranel.setSelected(false);
     }
 
     /**
@@ -107,6 +108,7 @@ public class RegistroProducto extends javax.swing.JFrame {
         tfNombre = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         tfCodigo = new javax.swing.JTextField();
+        btnLimpiar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfBuscar = new javax.swing.JTextField();
@@ -169,6 +171,13 @@ public class RegistroProducto extends javax.swing.JFrame {
         tfCodigo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tfCodigo.setToolTipText("");
 
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -203,7 +212,9 @@ public class RegistroProducto extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLimpiar)
+                            .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -233,7 +244,9 @@ public class RegistroProducto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLimpiar)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -537,6 +550,10 @@ public class RegistroProducto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tfPrecioKeyReleased
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -583,6 +600,7 @@ public class RegistroProducto extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnDescontinuar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cbCategoria;
     private javax.swing.JCheckBox cbGranel;
